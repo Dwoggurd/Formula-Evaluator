@@ -17,7 +17,6 @@
 #include <memory>
 #include <iostream>
 #include <functional>
-#include "../Utilities/LoggingUtilities.h"
 
 // ----------------------------------------------------------------------------
 namespace fe
