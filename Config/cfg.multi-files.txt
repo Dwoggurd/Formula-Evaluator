@@ -1,0 +1,12 @@
+# Config file example with several data and formula files
+
+# Log level (0-5)
+log-level=5
+
+# Pathname with formulas
+formulas=Config/formulas.example.txt
+formulas=Config/formulas.addon.txt
+
+# Pathname with data
+data=Config/data.example.txt
+data=Config/data.addon.txt

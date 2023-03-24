@@ -1,0 +1,12 @@
+# additional data sets for multi-file runs
+
+#--------------
+a=12,b=21.3,c=3.5,d=4.9,e=-1E+2,
+   value1=221, value2=24E+2, value3=131,
+   value4=+0, value5=323.7
+   ,value6=+12
+
+#--------------
+a = 10.2, a  =   13,
+b     =    14.2,
+c=-3,d=-5,value3=32,value4=7

@@ -1,0 +1,31 @@
+#------------------------------------------------------------------------------
+# Formulas have syntax : <name>=<expression>
+# 
+# <name>       : may have letters, digits, underscore and starts with non-digit
+# <expression> : may have variables, (double)literals, braces
+#     allowed operators: unary+ , unary- , binary + - * /
+# 
+# Formula allowed to span over multiple lines, spaces are ignored.
+# If several formulas have the same name, the first one is used.
+# Hash symbol ("#") marks a comment until the end of the line
+#------------------------------------------------------------------------------
+
+f1=3
+
+f2 = -a +                            # multi-line formula
+     +b - 1
+
+f3 = -c / +d + d - d * d
+f3 = -c / +d + 1                     # duplate name, ignored
+
+# formula with braces
+f4 = 3 + (a + c * d * 3) - e + (value1 * ((value2 + 21) / value3 - (value4 + value5 * value6)))
+
+f5 = 1 + 2 + 3 - 4
+     + (   a - b * c + value1   )    # comment in the middle of a formula
+     * (value2 + value3)
+     - (a * (b * (c * (d - (e - 13 + +value1 * -value2 + value3) + -value4 * 2 * +value5))))
+
+f6 = 1 + 2 - 3 + 4 + 5.1
+
+f7=1 /   -0                          # divide by zero

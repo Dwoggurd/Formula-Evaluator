@@ -1,0 +1,10 @@
+# Config file example
+
+# Log level (0-5)
+log-level=5
+
+# Pathname with formulas. This option can be provided several times for multi-file input.
+formulas=Config/formulas.example.txt
+
+# Pathname with data. This option can be provided several times for multi-file input.
+data=Config/data.example.txt

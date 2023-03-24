@@ -1,0 +1,29 @@
+#------------------------------------------------------------------------------
+# Data stream consists of datasets
+# 
+# Dataset is a comma separated list of pairs: <variable>=<double>
+# 
+# <variable> : may have letters, digits, underscore and starts with non-digit
+# <double>   : double literal
+# 
+# Datasets allowed to span over multiple lines, spaces are ignored.
+# If several variables have the same name, the first one is used.
+# Hash symbol ("#") marks a comment until the end of the line
+#------------------------------------------------------------------------------
+
+a= 1.1                                  # set1
+#--------------
+a=1.2, b=2, c=1E-1, a=1.4               # set2, duplicate "a", first instance is used
+
+value1=+1, value1                       # set3
+           =
+           +2.1,
+           unkown1=0.1                  # variables not found in formulas
+           ,unknown2 =   .2,
+           unknown3=-4.5E-1
+#--------------
+a=1,b=2.3,c=3,d=4,e=-1E+2,              # set4
+   value1=21, value2 = 24E+2, value3=131,
+   value4=+0, value5=-43.7
+   ,value6 =+12
+#--------------

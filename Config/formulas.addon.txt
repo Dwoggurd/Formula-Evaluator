@@ -1,0 +1,9 @@
+# additional formulas for multi-file runs
+
+f1 = 1  # duplicate name, ignored
+f2 = 1  # duplicate name, ignored
+
+f_addon1 = (1 - a) * (   2.3 + value2) - 14E-1 + value3/d
+
+f_addon2 = 34 + 1E+2 - e/value1 
+           + (a + 3.4  ) * value2 - (d-e) / a

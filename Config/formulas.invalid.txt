@@ -1,0 +1,5 @@
+# ill-formed formulas
+
+bad1 = a a         # will be parsed as "bad1=a" and then just "a"
+
+bad2 = a + * c     # should trigger boost::spirit::x3::expectation_failure
