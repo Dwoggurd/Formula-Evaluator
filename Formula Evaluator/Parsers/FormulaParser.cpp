@@ -1,5 +1,5 @@
 // ============================================================================
-// Formula Evalualor
+// Formula Evaluator
 // ============================================================================
 // Formulas parser
 // 
@@ -112,10 +112,10 @@ class AstTraverser
 {
 public:
     explicit AstTraverser( CalculatorSlot* const slot );
-    AstTraverser( const AstTraverser& ) = delete;
+    AstTraverser( const AstTraverser& )            = delete;
     AstTraverser& operator=( const AstTraverser& ) = delete;
-    AstTraverser( AstTraverser&& ) = delete;
-    AstTraverser& operator=( AstTraverser&& ) = delete;
+    AstTraverser( AstTraverser&& )                 = delete;
+    AstTraverser& operator=( AstTraverser&& )      = delete;
     ~AstTraverser();
 
     void operator()( const ast::Equation &x ) const;
