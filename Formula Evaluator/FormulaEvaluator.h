@@ -33,7 +33,7 @@ public:
     FormulaEvaluator& operator=( const FormulaEvaluator& ) = delete;
     FormulaEvaluator( FormulaEvaluator&& )                 = delete;
     FormulaEvaluator& operator=( FormulaEvaluator&& )      = delete;
-    ~FormulaEvaluator();
+    ~FormulaEvaluator()                                    = default;
 
     void  Init( int argc, char* argv[] );
     void  Start();

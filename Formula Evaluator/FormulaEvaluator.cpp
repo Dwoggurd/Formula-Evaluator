@@ -27,11 +27,6 @@ FormulaEvaluator::FormulaEvaluator() : formulaParser( calculator )
 }
 
 // ----------------------------------------------------------------------------
-FormulaEvaluator::~FormulaEvaluator()
-{
-}
-
-// ----------------------------------------------------------------------------
 void FormulaEvaluator::Init( int argc, char* argv[] )
 {
     LOG( 0, "--------------------------------" );

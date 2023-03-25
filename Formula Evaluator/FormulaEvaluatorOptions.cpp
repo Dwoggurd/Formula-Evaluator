@@ -24,11 +24,6 @@ FormulaEvaluatorOptions::FormulaEvaluatorOptions()
 }
 
 // ----------------------------------------------------------------------------
-FormulaEvaluatorOptions::~FormulaEvaluatorOptions()
-{
-}
-
-// ----------------------------------------------------------------------------
 void  FormulaEvaluatorOptions::ParseOptions( int argc, char* argv[] )
 {
     po::options_description  config( "Command line or Config file options" );
@@ -104,6 +99,7 @@ void  FormulaEvaluatorOptions::SetLogLevel( unsigned int x ) const
 {
     if ( x > 5 )
     {
+        LOG( 3, "Supported log levels: 0-5. Provided: " << x << ". Setting to 5." );
         x = 5;
     }
 

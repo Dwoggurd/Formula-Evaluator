@@ -38,7 +38,7 @@ public:
     FormulaEvaluatorOptions& operator=( const FormulaEvaluatorOptions& ) = delete;
     FormulaEvaluatorOptions( FormulaEvaluatorOptions&& )                 = delete;
     FormulaEvaluatorOptions& operator=( FormulaEvaluatorOptions&& )      = delete;
-    ~FormulaEvaluatorOptions();
+    ~FormulaEvaluatorOptions()                                           = default;
 
     void  ParseOptions( int argc, char* argv[] );
 

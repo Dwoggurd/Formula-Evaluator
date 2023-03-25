@@ -36,7 +36,7 @@ public:
     CalculatorSlot& operator=( const CalculatorSlot& ) = delete;
     CalculatorSlot( CalculatorSlot&& slot )            = delete;
     CalculatorSlot& operator=( CalculatorSlot&& )      = delete;
-    ~CalculatorSlot();
+    ~CalculatorSlot()                                  = default;
      
     inline std::string  Name() const { return name; };
 

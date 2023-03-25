@@ -43,7 +43,7 @@ public:
     DataParser& operator=( const DataParser& ) = delete;
     DataParser( DataParser&& )                 = delete;
     DataParser& operator=( DataParser&& )      = delete;
-    ~DataParser();
+    ~DataParser()                              = default;
 
     bool  InitDataSource( const std::string& fname );
     void  StopDataSource();

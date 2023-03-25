@@ -32,12 +32,12 @@ typedef class std::shared_ptr<CalculatorOperatorBase>  Operator;
 class CalculatorOperatorBase
 {
 public:
-    CalculatorOperatorBase();
+    CalculatorOperatorBase()                                           = default;
     CalculatorOperatorBase( const CalculatorOperatorBase& )            = delete;
     CalculatorOperatorBase& operator=( const CalculatorOperatorBase& ) = delete;
     CalculatorOperatorBase( CalculatorOperatorBase&& )                 = delete;
     CalculatorOperatorBase& operator=( CalculatorOperatorBase&& )      = delete;
-    virtual ~CalculatorOperatorBase();
+    virtual ~CalculatorOperatorBase()                                  = default;
 
     virtual void  operator()() = 0;
 
@@ -59,7 +59,7 @@ public:
     CalculatorOperator& operator=( const CalculatorOperator& ) = delete;
     CalculatorOperator( CalculatorOperator&& )                 = delete;
     CalculatorOperator& operator=( CalculatorOperator&& )      = delete;
-    ~CalculatorOperator() final;
+    ~CalculatorOperator() final                                = default;
 
     void operator()() final;
 
@@ -82,14 +82,14 @@ public:
     CalculatorVariable& operator=( const CalculatorVariable& ) = delete;
     CalculatorVariable( CalculatorVariable&& )                 = delete;
     CalculatorVariable& operator=( CalculatorVariable&& )      = delete;
-    ~CalculatorVariable() final;
+    ~CalculatorVariable() final                                = default;
 
     void operator()() final;
     void Reset();
 
-    inline std::string  Name() const { return name; };
-    inline double       GetValue() const { return value; }
-    inline void         SetValue( const double x ) { value = x; }
+    inline std::string  Name() const                { return name; };
+    inline double       GetValue() const            { return value; }
+    inline void         SetValue( const double x )  { value = x; }
 
 protected:
     const std::string  Dump() const final;
@@ -111,7 +111,7 @@ public:
     CalculatorLiteral& operator=( const CalculatorLiteral& ) = delete;
     CalculatorLiteral( CalculatorLiteral&& )                 = delete;
     CalculatorLiteral& operator=( CalculatorLiteral&& )      = delete;
-    ~CalculatorLiteral() final;
+    ~CalculatorLiteral() final                               = default;
 
     void operator()() final;
 

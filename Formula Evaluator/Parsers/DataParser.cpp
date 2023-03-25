@@ -65,11 +65,6 @@ DataParser::DataParser() : current( inIter() ), end( inIter() )
 }
 
 // ----------------------------------------------------------------------------
-DataParser::~DataParser()
-{
-}
-
-// ----------------------------------------------------------------------------
 bool DataParser::InitDataSource( const std::string &fname )
 {
     bool  good{ true };

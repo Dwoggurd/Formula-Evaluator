@@ -30,11 +30,6 @@ CalculatorSlot::CalculatorSlot( const std::string &name ) :
 }
 
 // ----------------------------------------------------------------------------
-CalculatorSlot::~CalculatorSlot()
-{
-}
-
-// ----------------------------------------------------------------------------
 void  CalculatorSlot::PushVariable( const std::string &x )
 {
     if ( const auto it{ variables.find( x ) }; it != variables.end() )

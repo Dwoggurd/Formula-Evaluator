@@ -41,7 +41,7 @@ public:
     FormulaParser& operator=( const FormulaParser& ) = delete;
     FormulaParser( FormulaParser&& )                 = delete;
     FormulaParser& operator=( FormulaParser&& )      = delete;
-    ~FormulaParser();
+    ~FormulaParser()                                 = default;
 
     void  Parse( const std::string_view s );
 

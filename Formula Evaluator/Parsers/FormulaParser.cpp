@@ -116,7 +116,7 @@ public:
     AstTraverser& operator=( const AstTraverser& ) = delete;
     AstTraverser( AstTraverser&& )                 = delete;
     AstTraverser& operator=( AstTraverser&& )      = delete;
-    ~AstTraverser();
+    ~AstTraverser()                                = default;
 
     void operator()( const ast::Equation &x ) const;
     void operator()( const ast::Expression& x ) const;
@@ -135,11 +135,6 @@ private:
 AstTraverser::AstTraverser( CalculatorSlot* const slot ) : slot( slot )
 {
 
-}
-
-// ----------------------------------------------------------------------------
-AstTraverser::~AstTraverser()
-{
 }
 
 // ----------------------------------------------------------------------------
@@ -290,11 +285,6 @@ auto const&  parser()
 // FormulaParser definition
 // ----------------------------------------------------------------------------
 FormulaParser::FormulaParser( Calculator &calc ) : calculator( calc )
-{
-}
-
-// ----------------------------------------------------------------------------
-FormulaParser::~FormulaParser()
 {
 }
 

@@ -14,27 +14,9 @@ namespace fe
 {
 
 // ----------------------------------------------------------------------------
-// CalculatorOperatorBase definition
-// ----------------------------------------------------------------------------
-CalculatorOperatorBase::CalculatorOperatorBase()
-{
-}
-
-// ----------------------------------------------------------------------------
-CalculatorOperatorBase::~CalculatorOperatorBase()
-{
-}
-
-
-// ----------------------------------------------------------------------------
 // CalculatorOperator definition
 // ----------------------------------------------------------------------------
 CalculatorOperator::CalculatorOperator( const std::string &tag, std::function<void()> cb ) : tag( tag ), cb( cb )
-{
-}
-
-// ----------------------------------------------------------------------------
-CalculatorOperator::~CalculatorOperator()
 {
 }
 
@@ -60,11 +42,6 @@ CalculatorVariable::CalculatorVariable( const std::string &s, std::function<void
 }
 
 // ----------------------------------------------------------------------------
-CalculatorVariable::~CalculatorVariable()
-{
-}
-
-// ----------------------------------------------------------------------------
 void CalculatorVariable::Reset()
 {
     value = 0;
@@ -86,11 +63,6 @@ const std::string CalculatorVariable::Dump() const
 // CalculatorLiteral definition
 // ----------------------------------------------------------------------------
 CalculatorLiteral::CalculatorLiteral( const double val, std::function<void(double)> cb ) : value( val ), cb( cb )
-{
-}
-
-// ----------------------------------------------------------------------------
-CalculatorLiteral::~CalculatorLiteral()
 {
 }
 
