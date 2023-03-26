@@ -75,7 +75,7 @@ void FormulaEvaluator::RunST()
 
     while ( !dataQ.empty() )
     {
-        calculator.Calculate( dataQ.front() );
+        calculator.Calculate( std::move( dataQ.front() ) );
         dataQ.pop();
         calculator.PrintResults();
     }
@@ -88,37 +88,33 @@ void FormulaEvaluator::RunMT()
 
     std::thread dataThread( &FormulaEvaluator::ParseDataMT, this );
 
+    std::unique_lock<std::mutex> lock( dataQmutex );
     while ( true )
     {
-        Dataset set;
-
-        pause.Sleep();
-
+        if ( dataQ.empty() )
         {
-            std::unique_lock<std::mutex> lock( dataQmutex );
-
-            if ( dataQ.empty() )
+            if ( dataQeoi )
             {
-                if ( dataQeoi )
-                {
-                    break;
-                }
-
-                dataQcv.wait( lock, [this]() { return !this->dataQ.empty() || dataQeoi; } );
-
-                // Finishing if wait() stopped on dataQeoi but still no new data
-                if ( dataQ.empty() && dataQeoi )
-                {
-                    break;
-                }
+                break;
             }
-            set = dataQ.front();
-            dataQ.pop();
-        }
 
-        calculator.Calculate( set );
+            dataQcv.wait( lock, [this]() { return !this->dataQ.empty() || dataQeoi; } );
+
+            // Finishing if wait() stopped on dataQeoi but still no new data
+            if ( dataQ.empty() && dataQeoi )
+            {
+                break;
+            }
+        }
+        Dataset set{ std::move( dataQ.front() ) };
+        dataQ.pop();
+        lock.unlock();
+        calculator.Calculate( std::move( set ) );
         calculator.PrintResults();
+        pause.Sleep();
+        lock.lock();
     }
+    lock.unlock();
     dataThread.join();
 }
 
@@ -147,7 +143,6 @@ void FormulaEvaluator::ParseDataST()
         for ( const auto& fn : programOptions.GetDataFiles() )
         {
             dataParser.InitDataSource( fn );
-
             while ( true )
             {
                 auto set = std::make_shared<DatasetT>();
@@ -159,10 +154,9 @@ void FormulaEvaluator::ParseDataST()
                     break;
                 }
 
-                dataQ.push( set );
                 LOG( 3, "Parsed dataset: " << DumpToStr( set ) );
+                dataQ.push( std::move( set ) );
             }
-
             dataParser.StopDataSource();
         }
     }
@@ -181,15 +175,15 @@ void FormulaEvaluator::ParseDataMT()
 
     try
     {
+        std::unique_lock<std::mutex> lock( dataQmutex );
+        lock.unlock();
+
         for ( const auto& fn : programOptions.GetDataFiles() )
         {
             dataParser.InitDataSource( fn );
-
             while ( true )
             {
                 auto set = std::make_shared<DatasetT>();
-
-                pause.Sleep();
 
                 dataParser.ParseDataset( set );
 
@@ -197,16 +191,14 @@ void FormulaEvaluator::ParseDataMT()
                 {
                     break;
                 }
-                else
-                {
-                    std::unique_lock<std::mutex> lock( dataQmutex );
-                    dataQ.push( set );
-                }
-                dataQcv.notify_one();
 
                 LOG( 3, "+++ Parsed dataset: " << DumpToStr( set ) );
+                lock.lock();
+                dataQ.push( std::move( set ) );
+                lock.unlock();
+                dataQcv.notify_one();
+                pause.Sleep();
             }
-
             dataParser.StopDataSource();
         }
     }
