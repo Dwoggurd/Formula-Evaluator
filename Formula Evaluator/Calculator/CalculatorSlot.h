@@ -19,7 +19,6 @@
 #include <iostream>
 #include "../Dataset.h"
 #include "CalculatorOperator.h"
-#include "../Utilities/LoggingUtilities.h"
 
 // ----------------------------------------------------------------------------
 namespace fe
@@ -49,15 +48,16 @@ public:
     inline void  PushMul() { operators.emplace_back( mul ); };
     inline void  PushDiv() { operators.emplace_back( div ); };
 
-    void    Reset();
-    void    LoadData( Dataset set ) const;
-    void    CalculateSlot() const;
+    void    CalculateSlotST( Dataset set );
+    void    CalculateSlotMT( Dataset set );
     double  ResultSlot() const;
     void    PrintResultSlot() const;
 
 private:
     friend std::ostream& operator<<( std::ostream& os, const CalculatorSlot* const x );
 
+    void         Reset();
+    void         LoadData( Dataset set ) const;
     std::string  Dump() const;
     std::string  DumpVariables() const;
 

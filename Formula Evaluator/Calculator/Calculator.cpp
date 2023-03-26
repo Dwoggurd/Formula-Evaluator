@@ -6,6 +6,8 @@
 // @author Dwoggurd (2023)
 // ============================================================================
 
+#include <vector>
+#include <thread>
 #include "Calculator.h"
 #include "../Utilities/LoggingUtilities.h"
 
@@ -16,7 +18,7 @@ namespace fe
 // ----------------------------------------------------------------------------
 // Calculator definition
 // ----------------------------------------------------------------------------
-Calculator::Calculator()
+Calculator::Calculator() : calculateProxy( &Calculator::CalculateST )
 {
 }
 
@@ -27,6 +29,13 @@ Calculator::~Calculator()
     {
         delete x;
     }
+}
+
+// ----------------------------------------------------------------------------
+void Calculator::EnableParallel()
+{
+    LOG( 3, "Enabled multi-threading for Calculator" );
+    calculateProxy = &Calculator::CalculateMT;
 }
 
 // ----------------------------------------------------------------------------
@@ -48,37 +57,38 @@ CalculatorSlot*  Calculator::CreateSlot( const std::string &name )
 }
 
 // ----------------------------------------------------------------------------
-void Calculator::Reset() const
-{
-    LOG( 5, "Calculator reset." );
-    for ( CalculatorSlot* const x : slots.get<SlotAge>() )
-    {
-        x->Reset();
-    }
-}
-
-// ----------------------------------------------------------------------------
-void Calculator::LoadData( Dataset set ) const
+void Calculator::Calculate( Dataset set ) const
 {
     LOG( 1, "" );
-    LOG( 1, "Loading data set:" );
-    for ( const auto &x : *set )
-    {
-        LOG( 1, "    " << x.first << "=" << x.second );
-    }
+    LOG( 1, "Calculate dataset: " << DumpToStr( set ) );
 
+    (this->*calculateProxy)( set );
+}
+
+// ----------------------------------------------------------------------------
+void Calculator::CalculateST( Dataset set ) const
+{
     for ( CalculatorSlot* const x : slots.get<SlotAge>() )
     {
-        x->LoadData( set );
+        x->CalculateSlotST( set );
     }
 }
 
 // ----------------------------------------------------------------------------
-void Calculator::Calculate() const
+void Calculator::CalculateMT( Dataset set ) const
 {
+    std::vector<std::thread>  threads;
+
+    threads.reserve( slots.get<SlotAge>().size() );
+
     for ( CalculatorSlot* const x : slots.get<SlotAge>() )
     {
-        x->CalculateSlot();
+        threads.emplace_back( std::thread( &CalculatorSlot::CalculateSlotMT, x, set ) );
+        LOG( 5, "Starting thread for: " << x->Name() << "(0x" << std::hex << threads.back().get_id() << ")" );
+    } 
+    for ( auto& x : threads )
+    {
+        x.join();
     }
 }
 
@@ -97,4 +107,3 @@ void Calculator::PrintResults() const
 
 // ----------------------------------------------------------------------------
 } // namespace fe
-// ----------------------------------------------------------------------------

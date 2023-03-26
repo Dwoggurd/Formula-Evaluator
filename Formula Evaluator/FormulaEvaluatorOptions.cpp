@@ -16,9 +16,10 @@ namespace po = boost::program_options;
 
 namespace fe
 {
+FormulaEvaluatorOptions  programOptions;
 
 // ----------------------------------------------------------------------------
-FormulaEvaluatorOptions::FormulaEvaluatorOptions()
+FormulaEvaluatorOptions::FormulaEvaluatorOptions() : parallel( false ), mtRandomSleeps( false )
 {
     SetLogLevel( 1 );
 }
@@ -28,15 +29,17 @@ void  FormulaEvaluatorOptions::ParseOptions( int argc, char* argv[] )
 {
     po::options_description  config( "Command line or Config file options" );
     config.add_options()
-        ("formulas",  po::value<std::vector<std::string>>()->composing()->required(), "Formulas pathname")
-        ("data",      po::value<std::vector<std::string>>()->composing()->required(), "Data pathname")
-        ("log-level", po::value<unsigned int>()->default_value( 1 ), "Log level: 0-5, 0 - minimal logging, 5 - full logging")
+        ( "formulas",         po::value<std::vector<std::string>>()->composing()->required(), "Formulas pathname" )
+        ( "data",             po::value<std::vector<std::string>>()->composing()->required(), "Data pathname" )
+        ( "log-level",        po::value<unsigned int>()->default_value( 1 ), "Log level: 0-5, 0 - minimal logging, 5 - full logging" )
+        ( "parallel",         po::value<bool>( &parallel )->default_value( true ), "Enable multi-threading (true/false)" )
+        ( "mt-random-sleeps", po::value<bool>( &mtRandomSleeps )->default_value( false ), "Add random sleeps for threads (true/false)" )
         ;
 
     po::options_description  cmdline( "Command line options" );
     cmdline.add_options()
-        ("help", "Usage info")
-        ("cfg", po::value<std::vector<std::string>>()->composing(), "Config pathname")
+        ( "help", "Usage info" )
+        ( "cfg", po::value<std::vector<std::string>>()->composing(), "Config pathname" )
         ;
     cmdline.add( config );
 
@@ -113,4 +116,3 @@ void  FormulaEvaluatorOptions::SetLogLevel( unsigned int x ) const
 
 // ----------------------------------------------------------------------------
 } // namespace fe
-// ----------------------------------------------------------------------------

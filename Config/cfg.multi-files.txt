@@ -10,3 +10,9 @@ formulas=Config/formulas.addon.txt
 # Pathname with data
 data=Config/data.example.txt
 data=Config/data.addon.txt
+
+# Multi-threading support
+parallel=true
+
+# Enable random sleeps for threads in MT mode (to make it less deterministic)
+mt-random-sleeps=false

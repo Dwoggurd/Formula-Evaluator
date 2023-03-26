@@ -65,30 +65,36 @@ DataParser::DataParser() : current( inIter() ), end( inIter() )
 }
 
 // ----------------------------------------------------------------------------
-bool DataParser::InitDataSource( const std::string &fname )
+void DataParser::InitDataSource( const std::string &fname )
 {
-    bool  good{ true };
-
-    LOG( 5, "" );
     LOG( 5, "Initializing data source: " << fname );
-    dataSource.open( fname );
 
-    if ( good = dataSource.good() )
+    try
     {
-         current = inIter( dataSource >> std::noskipws );
-    }
-    else
-    {
-        LOG( 1, "Failed to open data source: " << fname );
-    }
+        dataSource.open( fname );
 
-    return good;
+        if ( dataSource.good() )
+        {
+            current = inIter( dataSource >> std::noskipws );
+        }
+        else
+        {
+            throw std::invalid_argument( "Failed to open data source." );
+        }
+    }
+    catch ( [[maybe_unused]] const std::exception& x )
+    {
+        throw;
+    }
 }
 
 // ----------------------------------------------------------------------------
 void DataParser::StopDataSource()
 {
-    dataSource.close();
+    if ( dataSource.is_open() )
+    {
+        dataSource.close();
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -116,4 +122,3 @@ void DataParser::ParseDataset( Dataset set )
 
 // ----------------------------------------------------------------------------
 } // namespace fe
-// ----------------------------------------------------------------------------

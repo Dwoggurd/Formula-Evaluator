@@ -3,6 +3,10 @@
 // ============================================================================
 // Formulas parser
 // 
+// Formula parser logic is desinged to be locally incapsulated
+// Thus, it doesn't use knowledge of external data structures and declarations
+// and doesn't export its own structures and declarations
+//
 // @author Dwoggurd (2023)
 // ============================================================================
 
@@ -21,9 +25,7 @@ namespace fe
 {
 
 // ----------------------------------------------------------------------------
-// Formula parser logic is desinged to be locally incapsulated
-// Thus, it doesn't use knowledge of external data structures and declarations
-// and doesn't export its own structures and declarations
+// Abstract syntax tree for formula
 // ----------------------------------------------------------------------------
 namespace ast
 {
@@ -339,4 +341,3 @@ void FormulaParser::UploadFormula( const auto &f )
 
 // ----------------------------------------------------------------------------
 } // namespace fe
-// ----------------------------------------------------------------------------

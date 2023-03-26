@@ -9,6 +9,8 @@
 #include <sstream>
 #include <format>
 #include "CalculatorSlot.h"
+#include "../Utilities/LoggingUtilities.h"
+#include "../Utilities/ThreadRandomSleep.h"
 
 // ----------------------------------------------------------------------------
 namespace fe
@@ -54,32 +56,49 @@ void  CalculatorSlot::PushLiteral( const double x )
 void  CalculatorSlot::Reset()
 {
     vm.clear();
-    for ( const auto& x : variables )
-    {
-        x.second->Reset();
-    }
+    // Don't need to reset variables, they will be initialized by LoadData()
 }
 
 // ----------------------------------------------------------------------------
 void  CalculatorSlot::LoadData( Dataset set ) const
 {
-    for ( const auto& x : *set )
+    for ( const auto& [name, var] : variables )
     {
-        if ( const auto it{ variables.find( x.first ) }; it != variables.end() )
-        {
-            it->second->SetValue( x.second );
-        }
+        const auto it{ set->find( name ) };
+        var->SetValue( it == set->end() ? 0 : it->second );
+    }
+ }
+
+// ----------------------------------------------------------------------------
+void  CalculatorSlot::CalculateSlotST( Dataset set )
+{
+    Reset();
+    LoadData( set );
+
+    for ( Operator x : operators )
+    {
+        (*x)();
     }
 }
 
 // ----------------------------------------------------------------------------
-void  CalculatorSlot::CalculateSlot() const
+void  CalculatorSlot::CalculateSlotMT( Dataset set )
 {
-    for ( const Operator x : operators )
+    Reset();
+    LoadData( set );
+
+    for ( Operator x : operators )
     {
         (*x)();
     }
-    return;
+
+    // MT debug. Slow down threads by random time.
+    ThreadRandomSleep pause( 5, 200 );
+    unsigned int x = pause.Sleep();   // Returns zero when "random sleeps" are disabled
+
+    LOG( 5, "CalculateSlot finished: " << Name()
+            << "(0x" << std::hex << std::this_thread::get_id() << ")" 
+            << std::dec << " slept=" << x );
 }
 
 // ----------------------------------------------------------------------------
@@ -145,4 +164,3 @@ std::ostream& operator<<( std::ostream& os, const CalculatorSlot* const x )
 
 // ----------------------------------------------------------------------------
 } // namespace fe
-// ----------------------------------------------------------------------------

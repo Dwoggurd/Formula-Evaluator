@@ -14,6 +14,7 @@
 #include <exception>
 #include "FormulaEvaluator.h"
 #include "Utilities/LoggingUtilities.h"
+#include "Utilities/ThreadRandomSleep.h"
 
 // ----------------------------------------------------------------------------
 namespace fe
@@ -22,18 +23,21 @@ namespace fe
 // ----------------------------------------------------------------------------
 // FormulaEvaluator definition
 // ----------------------------------------------------------------------------
-FormulaEvaluator::FormulaEvaluator() : formulaParser( calculator )
-{
-}
-
-// ----------------------------------------------------------------------------
-void FormulaEvaluator::Init( int argc, char* argv[] )
+FormulaEvaluator::FormulaEvaluator() : formulaParser( calculator ), dataQeoi( false )
 {
     LOG( 0, "--------------------------------" );
     LOG( 0, "|       Formula Evaluator      |" );
     LOG( 0, "--------------------------------" );
+}
 
-    options.ParseOptions( argc, argv );
+// ----------------------------------------------------------------------------
+void FormulaEvaluator::Init()
+{
+    if ( programOptions.Parallel() )
+    {
+        LOG( 3, "Enabled multi-threading. hardware_concurrency() = " << std::thread::hardware_concurrency() );
+        calculator.EnableParallel();
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -42,7 +46,6 @@ void FormulaEvaluator::Start()
     try
     {
         ParseFormulas();
-        ParseData();
     }
     catch ( const std::exception& e )
     {
@@ -51,31 +54,78 @@ void FormulaEvaluator::Start()
         throw;
     }
 
-    Run();
-}
-
-// ----------------------------------------------------------------------------
-void FormulaEvaluator::Run()
-{
     LOG( 1, "" );
     LOG( 1, "Starting Calculator..." );
     LOG( 1, "=============================" );
 
+    if ( programOptions.Parallel() )
+    {
+        RunMT();
+    }
+    else
+    {
+        RunST();
+    }
+}
+
+// ----------------------------------------------------------------------------
+void FormulaEvaluator::RunST()
+{
+    ParseDataST();
+
     while ( !dataQ.empty() )
     {
-        calculator.Reset();
-        calculator.LoadData( dataQ.front() );
-        calculator.Calculate();
-        calculator.PrintResults();
-
+        calculator.Calculate( dataQ.front() );
         dataQ.pop();
+        calculator.PrintResults();
     }
+}
+
+// ----------------------------------------------------------------------------
+void FormulaEvaluator::RunMT()
+{
+    ThreadRandomSleep pause( 10, 2000 );
+
+    std::thread dataThread( &FormulaEvaluator::ParseDataMT, this );
+
+    while ( true )
+    {
+        Dataset set;
+
+        pause.Sleep();
+
+        {
+            std::unique_lock<std::mutex> lock( dataQmutex );
+
+            if ( dataQ.empty() )
+            {
+                if ( dataQeoi )
+                {
+                    break;
+                }
+
+                dataQcv.wait( lock, [this]() { return !this->dataQ.empty() || dataQeoi; } );
+
+                // Finishing if wait() stopped on dataQeoi but still no new data
+                if ( dataQ.empty() && dataQeoi )
+                {
+                    break;
+                }
+            }
+            set = dataQ.front();
+            dataQ.pop();
+        }
+
+        calculator.Calculate( set );
+        calculator.PrintResults();
+    }
+    dataThread.join();
 }
 
 // ----------------------------------------------------------------------------
 void FormulaEvaluator::ParseFormulas()
 {
-    for ( const auto &fn : options.GetFormulaFiles() )
+    for ( const auto &fn : programOptions.GetFormulaFiles() )
     {
         LOG( 5, "" );
         LOG( 5, "Formulas from: " << fn );
@@ -90,44 +140,84 @@ void FormulaEvaluator::ParseFormulas()
 }
 
 // ----------------------------------------------------------------------------
-void FormulaEvaluator::ParseData()
+void FormulaEvaluator::ParseDataST()
 {
-    for ( const auto& fn : options.GetDataFiles() )
+    try
     {
-        if ( dataParser.InitDataSource( fn ) )
+        for ( const auto& fn : programOptions.GetDataFiles() )
         {
+            dataParser.InitDataSource( fn );
+
             while ( true )
             {
                 auto set = std::make_shared<DatasetT>();
 
-                try
+                dataParser.ParseDataset( set );
+
+                if ( set->size() == 0 )
                 {
-                    LOG( 5, "-------------------------" );
-
-                    dataParser.ParseDataset( set );
-
-                    if ( set->size() == 0 )
-                    {
-                        break;
-                    }
-
-                    dataQ.push( set );
-
-                    LOG( 5, "Parsed dataset:" );
-                    for ( const auto& [key, value] : *set )
-                    {
-                        LOG( 5, "    " << key << '=' << value );
-                    }
+                    break;
                 }
-                catch ( [[maybe_unused]] const std::exception& e )
-                {
-                    dataParser.StopDataSource();
-                    throw;
-                }
+
+                dataQ.push( set );
+                LOG( 3, "Parsed dataset: " << DumpToStr( set ) );
             }
+
             dataParser.StopDataSource();
         }
     }
+    catch ( [[maybe_unused]] const std::exception& e )
+    {
+        dataParser.StopDataSource();
+        LOG( 0, e.what() );
+    }
+    LOG( 5, "No more data." );
+}
+
+// ----------------------------------------------------------------------------
+void FormulaEvaluator::ParseDataMT()
+{
+    ThreadRandomSleep pause( 200, 2000 );
+
+    try
+    {
+        for ( const auto& fn : programOptions.GetDataFiles() )
+        {
+            dataParser.InitDataSource( fn );
+
+            while ( true )
+            {
+                auto set = std::make_shared<DatasetT>();
+
+                pause.Sleep();
+
+                dataParser.ParseDataset( set );
+
+                if ( set->size() == 0 )
+                {
+                    break;
+                }
+                else
+                {
+                    std::unique_lock<std::mutex> lock( dataQmutex );
+                    dataQ.push( set );
+                }
+                dataQcv.notify_one();
+
+                LOG( 3, "+++ Parsed dataset: " << DumpToStr( set ) );
+            }
+
+            dataParser.StopDataSource();
+        }
+    }
+    catch ( [[maybe_unused]] const std::exception& e )
+    {
+        dataParser.StopDataSource();
+        LOG( 0, e.what() );
+    }
+    LOG( 5, "No more data." );
+    dataQeoi = true;
+    dataQcv.notify_one();
 }
 
 // ----------------------------------------------------------------------------
@@ -150,5 +240,3 @@ std::string FormulaEvaluator::LoadFileToStr( const std::string &fn ) const
 
 // ----------------------------------------------------------------------------
 } // namespace fe
-// ----------------------------------------------------------------------------
-

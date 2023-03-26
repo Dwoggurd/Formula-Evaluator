@@ -8,3 +8,9 @@ formulas=Config/formulas.example.txt
 
 # Pathname with data. This option can be provided several times for multi-file input.
 data=Config/data.example.txt
+
+# Multi-threading support
+parallel=true
+
+# Enable random sleeps for threads in MT mode (to make it less deterministic)
+mt-random-sleeps=false

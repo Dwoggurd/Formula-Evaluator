@@ -11,13 +11,15 @@ add_executable (FormulaEvaluator
     "main.cpp"
     "FormulaEvaluator.h" "FormulaEvaluator.cpp"
     "FormulaEvaluatorOptions.h" "FormulaEvaluatorOptions.cpp"
+    "Dataset.h" "Dataset.cpp"
     "Parsers/FormulaParser.h" "Parsers/FormulaParser.cpp"
     "Parsers/DataParser.h" "Parsers/DataParser.cpp"
     "Calculator/Calculator.h" "Calculator/Calculator.cpp"
     "Calculator/CalculatorOperator.h" "Calculator/CalculatorOperator.cpp"
     "Calculator/CalculatorSlot.h" "Calculator/CalculatorSlot.cpp"
     "Utilities/LoggingUtilities.h" 
-    "Dataset.h")
+    "Utilities/ThreadRandomSleep.h" "Utilities/ThreadRandomSleep.cpp")
+    
 target_link_libraries(FormulaEvaluator ${Boost_LIBRARIES})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

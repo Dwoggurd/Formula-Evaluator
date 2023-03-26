@@ -38,12 +38,15 @@ public:
 
     CalculatorSlot* CreateSlot( const std::string &name );
 
-    void  Reset() const;
-    void  LoadData( Dataset set ) const;
-    void  Calculate() const;
+    void  Calculate( Dataset set ) const;
     void  PrintResults() const;
+    void  EnableParallel();
 
 private:
+    void  (Calculator::*calculateProxy)( Dataset set ) const;  // CalculateST or CalculateMT
+    void  CalculateST( Dataset set ) const;
+    void  CalculateMT( Dataset set ) const;
+
     // Using multi-index container with two indices:
     // - sequenced : to preserve formula insertion order
     // - ordered   : to handle uniquess and searches

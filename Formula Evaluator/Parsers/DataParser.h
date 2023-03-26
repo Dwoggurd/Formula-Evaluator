@@ -45,7 +45,7 @@ public:
     DataParser& operator=( DataParser&& )      = delete;
     ~DataParser()                              = default;
 
-    bool  InitDataSource( const std::string& fname );
+    void  InitDataSource( const std::string& fname );
     void  StopDataSource();
     void  ParseDataset( Dataset set );
 

@@ -19,6 +19,8 @@ namespace fe
 {
 typedef std::map<std::string, double>  DatasetT;
 typedef std::shared_ptr<DatasetT>      Dataset;
+
+extern std::string  DumpToStr( Dataset set );
 } // namespace fe
 // ----------------------------------------------------------------------------
 #endif // Dataset_H
