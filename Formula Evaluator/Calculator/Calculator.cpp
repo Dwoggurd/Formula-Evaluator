@@ -7,7 +7,7 @@
 // ============================================================================
 
 #include <vector>
-#include <thread>
+#include <future>
 #include "Calculator.h"
 #include "../Utilities/LoggingUtilities.h"
 
@@ -77,18 +77,17 @@ void Calculator::CalculateST( Dataset set ) const
 // ----------------------------------------------------------------------------
 void Calculator::CalculateMT( Dataset set ) const
 {
-    std::vector<std::thread>  threads;
+    std::vector<std::future<void>>  threads;
 
     threads.reserve( slots.get<SlotAge>().size() );
 
     for ( CalculatorSlot* const x : slots.get<SlotAge>() )
     {
-        threads.emplace_back( std::thread( &CalculatorSlot::CalculateSlotMT, x, set ) );
-        LOG( 5, "Starting thread for: " << x->Name() << "(0x" << std::hex << threads.back().get_id() << ")" );
+        threads.emplace_back( std::async( &CalculatorSlot::CalculateSlotMT, x, set ) );
     } 
     for ( auto& x : threads )
     {
-        x.join();
+        x.wait();
     }
 }
 

@@ -11,7 +11,7 @@
 // Command line or Config file options:
 //   --formulas arg               Formulas pathname
 //   --data arg                   Data pathname
-//   --log-level arg(=1)          Log level : 0-5, 0 - minimal logging, 5 - full logging
+//   --log-level arg (=1)         Log level: 0-5, 0 - minimal, 5 - full
 //   --parallel arg (=1)          Enable multi-threading support (true/false)
 //   --mt-random-sleeps arg (=0)  Add random sleeps for threads (true/false)
 // 

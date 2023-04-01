@@ -8,17 +8,21 @@
 
 #include <memory>
 #include <exception>
+#include <iostream>
 #include "FormulaEvaluatorOptions.h"
 #include "FormulaEvaluator.h"
 
 // ----------------------------------------------------------------------------
 int main( int argc, char* argv[] )
 {
-    auto formulaEvaluator = std::make_unique<fe::FormulaEvaluator>();
-
+    std::cout << "--------------------------------\n"
+              << "|       Formula Evaluator      |\n"
+              << "--------------------------------" << std::endl;
     try
     {
         fe::programOptions.ParseOptions( argc, argv );
+
+        auto formulaEvaluator{ std::make_unique<fe::FormulaEvaluator>() };
 
         formulaEvaluator->Init();
         formulaEvaluator->Start();

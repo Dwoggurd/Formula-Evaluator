@@ -84,6 +84,8 @@ void  CalculatorSlot::CalculateSlotST( Dataset set )
 // ----------------------------------------------------------------------------
 void  CalculatorSlot::CalculateSlotMT( Dataset set )
 {
+    LOG( 5, "Starting async for: " << Name() );
+
     Reset();
     LoadData( set );
 

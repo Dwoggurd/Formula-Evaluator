@@ -31,7 +31,7 @@ void  FormulaEvaluatorOptions::ParseOptions( int argc, char* argv[] )
     config.add_options()
         ( "formulas",         po::value<std::vector<std::string>>()->composing()->required(), "Formulas pathname" )
         ( "data",             po::value<std::vector<std::string>>()->composing()->required(), "Data pathname" )
-        ( "log-level",        po::value<unsigned int>()->default_value( 1 ), "Log level: 0-5, 0 - minimal logging, 5 - full logging" )
+        ( "log-level",        po::value<unsigned int>()->default_value( 1 ), "Log level: 0-5, 0 - minimal, 5 - full" )
         ( "parallel",         po::value<bool>( &parallel )->default_value( true ), "Enable multi-threading (true/false)" )
         ( "mt-random-sleeps", po::value<bool>( &mtRandomSleeps )->default_value( false ), "Add random sleeps for threads (true/false)" )
         ;

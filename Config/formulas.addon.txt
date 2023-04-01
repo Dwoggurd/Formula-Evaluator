@@ -7,3 +7,10 @@ f_addon1 = (1 - a) * (   2.3 + value2) - 14E-1 + value3/d
 
 f_addon2 = 34 + 1E+2 - e/value1 
            + (a + 3.4  ) * value2 - (d-e) / a
+
+f_mt1 = a - b * c + 1
+f_mt2 = a - b * c + 2
+f_mt3 = a - b * c + 3
+f_mt4 = a - b * c + 4
+f_mt5 = a - b * c + 5
+f_mt6 = a - b * c + 6
