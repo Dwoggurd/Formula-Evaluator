@@ -1,9 +1,14 @@
 ﻿# CMakeList.txt : CMake project for Formula Evaluator, include source and define
 # project specific logic here.
 #
-set (BOOST_ROOT "C:/Program Files/boost/boost_1_81_0/")
-find_package(Boost)
-include_directories(${Boost_INCLUDE_DIRS})
+if (MSVC)
+  message("MSVC=${MSVC}")
+  set (BOOST_ROOT "C:/Program Files/boost/boost_1_81_0/")
+  find_package(Boost REQUIRED)
+else()
+  message("UNIX=${UNIX}")
+  find_package(Boost 1.70 REQUIRED COMPONENTS program_options log)
+endif()
 link_directories(${Boost_LIBRARY_DIRS})
 
 # Add source to this project's executable.
@@ -18,8 +23,10 @@ add_executable (FormulaEvaluator
     "Calculator/CalculatorOperator.h" "Calculator/CalculatorOperator.cpp"
     "Calculator/CalculatorSlot.h" "Calculator/CalculatorSlot.cpp"
     "Utilities/LoggingUtilities.h" 
-    "Utilities/ThreadRandomSleep.h" "Utilities/ThreadRandomSleep.cpp")
+    "Utilities/ThreadRandomSleep.h" "Utilities/ThreadRandomSleep.cpp" 
+    "Utilities/DoubleToStr.cpp" "Utilities/DoubleToStr.h")
     
+target_include_directories(FormulaEvaluator PUBLIC ${Boost_INCLUDE_DIR})
 target_link_libraries(FormulaEvaluator ${Boost_LIBRARIES})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

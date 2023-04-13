@@ -67,7 +67,7 @@ void  FormulaEvaluatorOptions::ParseOptions( int argc, char* argv[] )
         // This is to avoid exceptions from required options (which could be ommitted when --help is used) 
         if ( vm.count( "help" ) )
         {
-            throw std::exception( "Program usage:" );
+            throw std::invalid_argument( "------------------------------" );
         }
         notify( vm );
 

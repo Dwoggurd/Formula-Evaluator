@@ -6,7 +6,7 @@
 // @author Dwoggurd (2023)
 // ============================================================================
 
-#include <format>
+#include "../Utilities/DoubleToStr.h"
 #include "CalculatorOperator.h"
 
 // ----------------------------------------------------------------------------
@@ -75,7 +75,7 @@ void CalculatorLiteral::operator()()
 // ----------------------------------------------------------------------------
 const std::string CalculatorLiteral::Dump() const
 {
-    return std::format( "{:.3f}", value );
+    return DoubleToStr( value, 3 );
 }
 
 // ----------------------------------------------------------------------------

@@ -7,7 +7,8 @@
 // ============================================================================
 
 #include <sstream>
-#include <format>
+#include <thread>
+#include "../Utilities/DoubleToStr.h"
 #include "CalculatorSlot.h"
 #include "../Utilities/LoggingUtilities.h"
 #include "../Utilities/ThreadRandomSleep.h"
@@ -120,7 +121,7 @@ double  CalculatorSlot::ResultSlot() const
 // ----------------------------------------------------------------------------
 void  CalculatorSlot::PrintResultSlot() const
 {
-    LOG( 0, Name() << " = " << std::format( "{:.3f}", ResultSlot() ) );
+    LOG( 0, Name() << " = " << DoubleToStr( ResultSlot(), 3 ) );
 }
 
 // ----------------------------------------------------------------------------
