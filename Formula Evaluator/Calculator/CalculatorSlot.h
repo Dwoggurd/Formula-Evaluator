@@ -37,7 +37,7 @@ public:
     CalculatorSlot& operator=( CalculatorSlot&& )      = delete;
     ~CalculatorSlot()                                  = default;
      
-    constexpr std::string  Name() const noexcept { return name; }
+    std::string  Name() const { return name; }
 
     void         PushVariable( const std::string &x );
     void         PushLiteral( const double x );

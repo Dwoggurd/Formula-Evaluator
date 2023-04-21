@@ -87,9 +87,9 @@ public:
     void operator()() final;
     void Reset();
 
-    constexpr std::string  Name() const noexcept { return name; }
-    constexpr double       GetValue() const noexcept { return value; }
-    constexpr void         SetValue( const double x ) noexcept { value = x; }
+    std::string       Name() const { return name; }
+    constexpr double  GetValue() const noexcept { return value; }
+    constexpr void    SetValue( const double x ) noexcept { value = x; }
 
 protected:
     const std::string  Dump() const final;

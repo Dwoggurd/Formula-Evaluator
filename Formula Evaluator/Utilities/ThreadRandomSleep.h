@@ -34,7 +34,7 @@ public:
 
     // When "random sleeps" are enabled puts current thread to sleep and returns delay.
     // Returns zero when "random sleeps" are disabled.
-    constexpr unsigned int  Sleep() { return (this->*SleepProxy)(); };
+    constexpr unsigned int  Sleep() { return (this->*SleepProxy)(); }
 
 private:
     unsigned int  (ThreadRandomSleep::*SleepProxy)();

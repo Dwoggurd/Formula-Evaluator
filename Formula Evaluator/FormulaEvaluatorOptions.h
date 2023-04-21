@@ -44,10 +44,10 @@ public:
 
     void  ParseOptions( int argc, char* argv[] );
 
-    constexpr std::vector<std::string>  GetFormulaFiles() const noexcept { return formulaFiles; }
-    constexpr std::vector<std::string>  GetDataFiles() const noexcept { return dataFiles; }
-    constexpr bool                      Parallel() const noexcept { return parallel; }
-    constexpr bool                      MTRandomSleeps() const noexcept { return mtRandomSleeps; }
+    std::vector<std::string>  GetFormulaFiles() const { return formulaFiles; }
+    std::vector<std::string>  GetDataFiles() const { return dataFiles; }
+    constexpr bool            Parallel() const noexcept { return parallel; }
+    constexpr bool            MTRandomSleeps() const noexcept { return mtRandomSleeps; }
 
 private:
     std::vector<std::string>  formulaFiles;
