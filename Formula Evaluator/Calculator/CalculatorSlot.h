@@ -37,16 +37,16 @@ public:
     CalculatorSlot& operator=( CalculatorSlot&& )      = delete;
     ~CalculatorSlot()                                  = default;
      
-    inline std::string  Name() const { return name; };
+    constexpr std::string  Name() const noexcept { return name; }
 
     void         PushVariable( const std::string &x );
     void         PushLiteral( const double x );
-    inline void  PushPos() { operators.emplace_back( pos ); };
-    inline void  PushNeg() { operators.emplace_back( neg ); };
-    inline void  PushAdd() { operators.emplace_back( add ); };
-    inline void  PushSub() { operators.emplace_back( sub ); };
-    inline void  PushMul() { operators.emplace_back( mul ); };
-    inline void  PushDiv() { operators.emplace_back( div ); };
+    inline void  PushPos() { operators.emplace_back( pos ); }
+    inline void  PushNeg() { operators.emplace_back( neg ); }
+    inline void  PushAdd() { operators.emplace_back( add ); }
+    inline void  PushSub() { operators.emplace_back( sub ); }
+    inline void  PushMul() { operators.emplace_back( mul ); }
+    inline void  PushDiv() { operators.emplace_back( div ); }
 
     void    CalculateSlotST( Dataset set );
     void    CalculateSlotMT( Dataset set );
@@ -73,12 +73,12 @@ private:
     std::deque<double>  vm;
 
     // Reusable operators
-    const Operator  pos;
-    const Operator  neg;
-    const Operator  add;
-    const Operator  sub;
-    const Operator  mul;
-    const Operator  div;
+    const Operator  pos{ std::make_shared<CalculatorOperator>( "#+", []() { /* do nothing */ } ) };
+    const Operator  neg{ std::make_shared<CalculatorOperator>( "#-", [this]() { this->vm.front() = -this->vm.front(); } ) };
+    const Operator  add{ std::make_shared<CalculatorOperator>( "+",  [this]() { this->vm[1] += this->vm.front(); this->vm.pop_front(); } ) };
+    const Operator  sub{ std::make_shared<CalculatorOperator>( "-",  [this]() { this->vm[1] -= this->vm.front(); this->vm.pop_front(); } ) };
+    const Operator  mul{ std::make_shared<CalculatorOperator>( "*",  [this]() { this->vm[1] *= this->vm.front(); this->vm.pop_front(); } ) };
+    const Operator  div{ std::make_shared<CalculatorOperator>( "/",  [this]() { this->vm[1] /= this->vm.front(); this->vm.pop_front(); } ) };
 };
 
 // ----------------------------------------------------------------------------

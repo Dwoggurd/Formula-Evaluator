@@ -60,11 +60,6 @@ BOOST_SPIRIT_DEFINE(
 // ----------------------------------------------------------------------------
 // DataParser definition
 // ----------------------------------------------------------------------------
-DataParser::DataParser() : current( inIter() ), end( inIter() )
-{
-}
-
-// ----------------------------------------------------------------------------
 void DataParser::InitDataSource( const std::string &fname )
 {
     LOG( 5, "Initializing data source: " << fname );

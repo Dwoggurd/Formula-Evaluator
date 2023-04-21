@@ -31,7 +31,7 @@ namespace fe
 class FormulaEvaluator
 {
 public:
-    FormulaEvaluator();
+    FormulaEvaluator()                                     = default;
     FormulaEvaluator( const FormulaEvaluator& )            = delete;
     FormulaEvaluator& operator=( const FormulaEvaluator& ) = delete;
     FormulaEvaluator( FormulaEvaluator&& )                 = delete;
@@ -51,14 +51,14 @@ private:
 
     Calculator               calculator;     // Must be declared before "formulaParser"
     DataParser               dataParser;
-    FormulaParser            formulaParser;  // Constructed with "calculator" reference
+    FormulaParser            formulaParser{ calculator };  // Constructed with "calculator" reference
 
     // Data stream queue
     std::queue<Dataset>      dataQ;
 
     std::mutex               dataQmutex;
     std::condition_variable  dataQcv;
-    std::atomic_bool         dataQeoi;
+    std::atomic_bool         dataQeoi{ false };
 };
 
 // ----------------------------------------------------------------------------

@@ -19,7 +19,7 @@ namespace fe
 FormulaEvaluatorOptions  programOptions;
 
 // ----------------------------------------------------------------------------
-FormulaEvaluatorOptions::FormulaEvaluatorOptions() : parallel( false ), mtRandomSleeps( false )
+FormulaEvaluatorOptions::FormulaEvaluatorOptions()
 {
     SetLogLevel( 1 );
 }

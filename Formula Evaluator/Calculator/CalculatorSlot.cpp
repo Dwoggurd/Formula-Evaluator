@@ -20,14 +20,7 @@ namespace fe
 // ----------------------------------------------------------------------------
 // CalculatorSlot definition
 // ----------------------------------------------------------------------------
-CalculatorSlot::CalculatorSlot( const std::string &name ) : 
-    name( name ),
-    pos( std::make_shared<CalculatorOperator>( "#+", []() { /* do nothing */ } ) ),
-    neg( std::make_shared<CalculatorOperator>( "#-", [this]() { this->vm.front() = -this->vm.front(); } ) ),
-    add( std::make_shared<CalculatorOperator>( "+",  [this]() { this->vm[1] += this->vm.front(); this->vm.pop_front(); } ) ),
-    sub( std::make_shared<CalculatorOperator>( "-",  [this]() { this->vm[1] -= this->vm.front(); this->vm.pop_front(); } ) ),
-    mul( std::make_shared<CalculatorOperator>( "*",  [this]() { this->vm[1] *= this->vm.front(); this->vm.pop_front(); } ) ),
-    div( std::make_shared<CalculatorOperator>( "/",  [this]() { this->vm[1] /= this->vm.front(); this->vm.pop_front(); } ) )
+CalculatorSlot::CalculatorSlot( const std::string &name ) : name( name )
 {
     LOG( 5, "Created calculator slot: " << name );
 }

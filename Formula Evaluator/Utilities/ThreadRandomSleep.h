@@ -34,14 +34,14 @@ public:
 
     // When "random sleeps" are enabled puts current thread to sleep and returns delay.
     // Returns zero when "random sleeps" are disabled.
-    inline unsigned int  Sleep() { return (this->*SleepProxy)(); };
+    constexpr unsigned int  Sleep() { return (this->*SleepProxy)(); };
 
 private:
     unsigned int  (ThreadRandomSleep::*SleepProxy)();
     unsigned int  SleepEnabled();
     unsigned int  SleepDisabled();
 
-    std::mt19937_64                              eng;
+    std::mt19937_64                              eng{ std::random_device{}() };
     std::uniform_int_distribution<unsigned int>  distrib;
 };
 

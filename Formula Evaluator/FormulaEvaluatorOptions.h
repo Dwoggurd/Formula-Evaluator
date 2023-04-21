@@ -44,16 +44,16 @@ public:
 
     void  ParseOptions( int argc, char* argv[] );
 
-    inline std::vector<std::string>  GetFormulaFiles() const { return formulaFiles; };
-    inline std::vector<std::string>  GetDataFiles() const    { return dataFiles; };
-    inline bool                      Parallel() const        { return parallel; };
-    inline bool                      MTRandomSleeps() const  { return mtRandomSleeps; };
+    constexpr std::vector<std::string>  GetFormulaFiles() const noexcept { return formulaFiles; }
+    constexpr std::vector<std::string>  GetDataFiles() const noexcept { return dataFiles; }
+    constexpr bool                      Parallel() const noexcept { return parallel; }
+    constexpr bool                      MTRandomSleeps() const noexcept { return mtRandomSleeps; }
 
 private:
     std::vector<std::string>  formulaFiles;
     std::vector<std::string>  dataFiles;
-    bool                      parallel;
-    bool                      mtRandomSleeps;
+    bool                      parallel{ false };
+    bool                      mtRandomSleeps{ false };
 
     void  SetLogLevel( unsigned int x ) const;
 };

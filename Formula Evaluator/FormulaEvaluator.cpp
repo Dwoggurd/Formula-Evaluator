@@ -23,11 +23,6 @@ namespace fe
 // ----------------------------------------------------------------------------
 // FormulaEvaluator definition
 // ----------------------------------------------------------------------------
-FormulaEvaluator::FormulaEvaluator() : formulaParser( calculator ), dataQeoi( false )
-{
-}
-
-// ----------------------------------------------------------------------------
 void FormulaEvaluator::Init()
 {
     if ( programOptions.Parallel() )

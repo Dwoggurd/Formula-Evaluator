@@ -16,8 +16,7 @@ namespace fe
 {
 
 // ----------------------------------------------------------------------------
-ThreadRandomSleep::ThreadRandomSleep( unsigned int lower, unsigned int upper ) 
-    : distrib( lower, upper ), eng( std::random_device{}() )
+ThreadRandomSleep::ThreadRandomSleep( unsigned int lower, unsigned int upper ) : distrib( lower, upper )
 {
     SleepProxy = programOptions.MTRandomSleeps() ? &ThreadRandomSleep::SleepEnabled : &ThreadRandomSleep::SleepDisabled;
 }

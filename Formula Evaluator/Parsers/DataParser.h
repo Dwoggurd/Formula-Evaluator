@@ -38,7 +38,7 @@ namespace fe
 class DataParser
 {
 public:
-    DataParser();
+    DataParser()                               = default;
     DataParser( const DataParser& )            = delete;
     DataParser& operator=( const DataParser& ) = delete;
     DataParser( DataParser&& )                 = delete;
@@ -52,8 +52,8 @@ public:
 private:
     typedef boost::spirit::istream_iterator  inIter;
 
-    inIter         current;
-    const inIter   end;
+    inIter         current{};
+    const inIter   end{};
     std::ifstream  dataSource;
 };
 
