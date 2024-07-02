@@ -28,8 +28,7 @@ add_executable (FormulaEvaluator
     Calculator/CalculatorOperator.h Calculator/CalculatorOperator.cpp
     Calculator/CalculatorSlot.h Calculator/CalculatorSlot.cpp
     Utilities/LoggingUtilities.h 
-    Utilities/ThreadRandomSleep.h Utilities/ThreadRandomSleep.cpp 
-    Utilities/DoubleToStr.h Utilities/DoubleToStr.cpp)
+    Utilities/ThreadRandomSleep.h Utilities/ThreadRandomSleep.cpp)
     
 target_include_directories(FormulaEvaluator PUBLIC ${Boost_INCLUDE_DIR})
 target_link_libraries(FormulaEvaluator ${Boost_LIBRARIES})
