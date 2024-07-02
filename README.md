@@ -14,7 +14,7 @@ Output:
 ## Used features and technogolies
 
 #### C++
-- various features up to C++20 (OOP, STL, multi-threading, lambdas, smart pointers, etc)
+- various features up to C++23 (OOP, STL, multi-threading, lambdas, smart pointers, etc)
 
 #### Boost 1.81.0
 - spirit x3 (parsing lib)
@@ -52,6 +52,6 @@ a=1, b=4.1E-1, c=-2.1, d=3E+2
 `--mt-random-sleeps <bool>` - Amend multi-threading with random sleeps per thread to make it less deterministic.
 
 ##
-Dwoggurd (2023)
+Dwoggurd (2023-2024)
 
 

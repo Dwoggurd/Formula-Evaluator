@@ -1,10 +1,10 @@
-// ============================================================================
+// =============================================================================
 // Formula Evaluator
-// ============================================================================
+// =============================================================================
 // Calculator Slot
 // 
-// @author Dwoggurd (2023)
-// ============================================================================
+// @author Dwoggurd (2023-2024)
+// =============================================================================
 
 #include <sstream>
 #include <thread>
@@ -13,20 +13,19 @@
 #include "../Utilities/LoggingUtilities.h"
 #include "../Utilities/ThreadRandomSleep.h"
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 namespace fe
 {
-
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // CalculatorSlot definition
-// ----------------------------------------------------------------------------
-CalculatorSlot::CalculatorSlot( const std::string &name ) : name( name )
+// -----------------------------------------------------------------------------
+CalculatorSlot::CalculatorSlot( const std::string& name ) : name( name )
 {
     LOG( 5, "Created calculator slot: " << name );
 }
 
-// ----------------------------------------------------------------------------
-void  CalculatorSlot::PushVariable( const std::string &x )
+// -----------------------------------------------------------------------------
+void  CalculatorSlot::PushVariable( const std::string& x )
 {
     if ( const auto it{ variables.find( x ) }; it != variables.end() )
     {
@@ -40,20 +39,20 @@ void  CalculatorSlot::PushVariable( const std::string &x )
     }
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 void  CalculatorSlot::PushLiteral( const double x )
 {
     operators.emplace_back( std::make_shared<CalculatorLiteral>( x, [this]( const double v ) { this->vm.push_front( v ); } ) );
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 void  CalculatorSlot::Reset()
 {
     vm.clear();
     // Don't need to reset variables, they will be initialized by LoadData()
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 void  CalculatorSlot::LoadData( Dataset set ) const
 {
     for ( const auto& [name, var] : variables )
@@ -63,7 +62,7 @@ void  CalculatorSlot::LoadData( Dataset set ) const
     }
  }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 void  CalculatorSlot::CalculateSlotST( Dataset set )
 {
     Reset();
@@ -75,7 +74,7 @@ void  CalculatorSlot::CalculateSlotST( Dataset set )
     }
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 void  CalculatorSlot::CalculateSlotMT( Dataset set )
 {
     LOG( 5, "Starting async for: " << Name() );
@@ -97,7 +96,7 @@ void  CalculatorSlot::CalculateSlotMT( Dataset set )
             << std::dec << " slept=" << x );
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 double  CalculatorSlot::ResultSlot() const
 {
     if ( vm.size() == 1 )
@@ -111,13 +110,13 @@ double  CalculatorSlot::ResultSlot() const
     }
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 void  CalculatorSlot::PrintResultSlot() const
 {
     LOG( 0, Name() << " = " << DoubleToStr( ResultSlot(), 3 ) );
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 std::string  CalculatorSlot::Dump() const
 {
     std::ostringstream os;
@@ -135,7 +134,7 @@ std::string  CalculatorSlot::Dump() const
     return os.str();
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 std::string  CalculatorSlot::DumpVariables() const
 {
     std::ostringstream os;
@@ -148,9 +147,9 @@ std::string  CalculatorSlot::DumpVariables() const
     return os.str();
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Print stuff for calculator slot
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 std::ostream& operator<<( std::ostream& os, const CalculatorSlot* const x )
 {
     os << x->Dump();
@@ -158,5 +157,5 @@ std::ostream& operator<<( std::ostream& os, const CalculatorSlot* const x )
     return os;
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 } // namespace fe

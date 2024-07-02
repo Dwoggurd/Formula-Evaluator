@@ -1,36 +1,35 @@
-// ============================================================================
+// =============================================================================
 // Formula Evaluator
-// ============================================================================
+// =============================================================================
 // Calculator Slot
 // 
 // Keeps formula in reverse polish notation
 // Calculates formula on stack based machine
 // Formula variables values are loaded from datasets (or zero'd if not present in dataset)
 // 
-// @author Dwoggurd (2023)
-// ============================================================================
+// @author Dwoggurd (2023-2024)
+// =============================================================================
 
 #ifndef CalculatorSlot_H
 #define CalculatorSlot_H
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 #include <string>
 #include <deque>
 #include <iostream>
 #include "../Dataset.h"
 #include "CalculatorOperator.h"
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 namespace fe
 {
-
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // CalculatorSlot declaration
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 class CalculatorSlot
 {
 public:
-    explicit CalculatorSlot( const std::string &name );
+    explicit CalculatorSlot( const std::string& name );
     CalculatorSlot( const CalculatorSlot& )            = delete;
     CalculatorSlot& operator=( const CalculatorSlot& ) = delete;
     CalculatorSlot( CalculatorSlot&& slot )            = delete;
@@ -39,7 +38,7 @@ public:
      
     std::string  Name() const { return name; }
 
-    void         PushVariable( const std::string &x );
+    void         PushVariable( const std::string& x );
     void         PushLiteral( const double x );
     inline void  PushPos() { operators.emplace_back( pos ); }
     inline void  PushNeg() { operators.emplace_back( neg ); }
@@ -81,7 +80,7 @@ private:
     const Operator  div{ std::make_shared<CalculatorOperator>( "/",  [this]() { this->vm[1] /= this->vm.front(); this->vm.pop_front(); } ) };
 };
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 } // namespace fe
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 #endif // CalculatorSlot_H

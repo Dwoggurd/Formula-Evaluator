@@ -1,34 +1,33 @@
-// ============================================================================
+// =============================================================================
 // Formula Evaluator
-// ============================================================================
+// =============================================================================
 // Calculator operators
 //
 // Implements functors that operate on calculator slot stack based machine
 // 
-// @author Dwoggurd (2023)
-// ============================================================================
+// @author Dwoggurd (2023-2024)
+// =============================================================================
 
 #ifndef CalculatorOperator_H
 #define CalculatorOperator_H
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 #include <vector>
 #include <string>
 #include <memory>
 #include <iostream>
 #include <functional>
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 namespace fe
 {
-
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // CalculatorOperatorBase declaration
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 class CalculatorOperatorBase;
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 typedef class std::shared_ptr<CalculatorOperatorBase>  Operator;
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 class CalculatorOperatorBase
 {
 public:
@@ -48,13 +47,13 @@ protected:
 };
 
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // CalculatorOperator declaration
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 class CalculatorOperator : public CalculatorOperatorBase
 {
 public:
-    explicit CalculatorOperator( const std::string &tag, std::function<void()> cb );
+    explicit CalculatorOperator( const std::string& tag, std::function<void()> cb );
     CalculatorOperator( const CalculatorOperator& )            = delete;
     CalculatorOperator& operator=( const CalculatorOperator& ) = delete;
     CalculatorOperator( CalculatorOperator&& )                 = delete;
@@ -71,13 +70,13 @@ private:
     const std::function<void()>  cb;
 };
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // CalculatorVariable declaration
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 class CalculatorVariable : public CalculatorOperatorBase
 {
 public:
-    explicit CalculatorVariable( const std::string &name, std::function<void(double)> cb );
+    explicit CalculatorVariable( const std::string& name, std::function<void(double)> cb );
     CalculatorVariable( const CalculatorVariable& )            = delete;
     CalculatorVariable& operator=( const CalculatorVariable& ) = delete;
     CalculatorVariable( CalculatorVariable&& )                 = delete;
@@ -100,9 +99,9 @@ private:
     std::function<void(double)>  cb;
 };
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // CalculatorLiteral declaration
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 class CalculatorLiteral : public CalculatorOperatorBase
 {
 public:
@@ -123,7 +122,7 @@ private:
     std::function<void(double)>  cb;
 };
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 } // namespace fe
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 #endif // CalculatorOperator_H

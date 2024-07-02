@@ -1,4 +1,4 @@
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # Formulas have syntax : <name>=<expression>
 # 
 # <name>       : may have letters, digits, underscore and starts with non-digit
@@ -8,7 +8,7 @@
 # Formula allowed to span over multiple lines, spaces are ignored.
 # If several formulas have the same name, the first one is used.
 # Hash symbol ("#") marks a comment until the end of the line
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 f1=3
 

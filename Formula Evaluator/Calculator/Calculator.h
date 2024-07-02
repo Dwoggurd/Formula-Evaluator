@@ -1,17 +1,17 @@
-// ============================================================================
+// =============================================================================
 // Formula Evaluator
-// ============================================================================
+// =============================================================================
 // Calculator
 //
 // Handles calculator slots with formulas
 // 
-// @author Dwoggurd (2023)
-// ============================================================================
+// @author Dwoggurd (2023-2024)
+// =============================================================================
 
 #ifndef Calculator_H
 #define Calculator_H
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 #include <string>
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/sequenced_index.hpp>
@@ -19,13 +19,12 @@
 #include <boost/multi_index/mem_fun.hpp>
 #include "CalculatorSlot.h"
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 namespace fe
 {
-
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Calculator declaration
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 class Calculator
 {
 public:
@@ -36,7 +35,7 @@ public:
     Calculator& operator=( Calculator&& )      = delete;
     ~Calculator();
 
-    CalculatorSlot* CreateSlot( const std::string &name );
+    CalculatorSlot* CreateSlot( const std::string& name );
 
     void  Calculate( Dataset set ) const;
     void  PrintResults() const;
@@ -57,12 +56,14 @@ private:
         CalculatorSlot*,
         boost::multi_index::indexed_by<
             boost::multi_index::sequenced<boost::multi_index::tag<SlotAge>>,
-            boost::multi_index::ordered_unique<boost::multi_index::tag<SlotName>, boost::multi_index::const_mem_fun<CalculatorSlot, std::string, &CalculatorSlot::Name>>
+            boost::multi_index::ordered_unique<boost::multi_index::tag<SlotName>, 
+                boost::multi_index::const_mem_fun<CalculatorSlot, 
+                std::string, &CalculatorSlot::Name>>
         >
     >  slots;
 };
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 } // namespace fe
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 #endif // Calculator_H

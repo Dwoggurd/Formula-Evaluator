@@ -1,30 +1,31 @@
-// ============================================================================
+// =============================================================================
 // Formula Evaluator
-// ============================================================================
+// =============================================================================
 // Parse program options
 // 
-// @author Dwoggurd (2023)
-// ============================================================================
+// @author Dwoggurd (2023-2024)
+// =============================================================================
 
 #include <exception>
 #include <boost/program_options.hpp>
 #include "FormulaEvaluatorOptions.h"
 #include "Utilities/LoggingUtilities.h"
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 namespace po = boost::program_options;
 
+// -----------------------------------------------------------------------------
 namespace fe
 {
 FormulaEvaluatorOptions  programOptions;
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 FormulaEvaluatorOptions::FormulaEvaluatorOptions()
 {
     SetLogLevel( 1 );
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 void  FormulaEvaluatorOptions::ParseOptions( int argc, char* argv[] )
 {
     po::options_description  config( "Command line or Config file options" );
@@ -55,7 +56,7 @@ void  FormulaEvaluatorOptions::ParseOptions( int argc, char* argv[] )
 
         if ( vm.count( "cfg" ) )
         {
-            for ( const auto  &fname : vm["cfg"].as<std::vector<std::string>>() )
+            for ( const auto& fname : vm["cfg"].as<std::vector<std::string>>() )
             {
                 LOG( 5, "Parsing config file: " << fname );
 
@@ -89,7 +90,7 @@ void  FormulaEvaluatorOptions::ParseOptions( int argc, char* argv[] )
             LOG( 1, "    " << fname );
         }
     }
-    catch( [[maybe_unused]] std::exception &e )
+    catch( [[maybe_unused]] std::exception& e )
     {
         LOG( 0, e.what() );
         LOG( 0, cmdline );
@@ -97,7 +98,7 @@ void  FormulaEvaluatorOptions::ParseOptions( int argc, char* argv[] )
     }
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 void  FormulaEvaluatorOptions::SetLogLevel( unsigned int x ) const
 {
     if ( x > 5 )
@@ -114,5 +115,5 @@ void  FormulaEvaluatorOptions::SetLogLevel( unsigned int x ) const
         } );
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 } // namespace fe

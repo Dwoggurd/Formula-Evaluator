@@ -1,4 +1,4 @@
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # Data stream consists of datasets
 # 
 # Dataset is a comma separated list of pairs: <variable>=<double>
@@ -9,7 +9,7 @@
 # Datasets allowed to span over multiple lines, spaces are ignored.
 # If several variables have the same name, the first one is used.
 # Hash symbol ("#") marks a comment until the end of the line
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 a= 1.1                                  # set1
 #--------------
