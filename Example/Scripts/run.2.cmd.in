@@ -12,7 +12,7 @@ fi
 : #-----------------------------------------------------------------------------
 : # Linux
 : #-----------------------------------------------------------------------------
-set args='--formulas=Config/formulas.example.txt --data=Config/data.example.txt --log-level=5'
+args='--formulas=Config/formulas.example.txt --data=Config/data.example.txt --log-level=5'
 cmd="${CMAKE_BINARY_DIR}/FormulaEvaluator/FormulaEvaluator"
 echo --------------------------------------------------------------------------------
 echo Args: No config file
