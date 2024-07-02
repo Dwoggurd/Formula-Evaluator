@@ -1,5 +1,5 @@
 @echo off
-set cmd="out\build\x64-debug\Formula Evaluator\FormulaEvaluator.exe" --cfg=Config/cfg.txt
+set cmd="out\build\x64-debug\FormulaEvaluator\FormulaEvaluator.exe" --cfg=Config/cfg.txt
 echo -------------------------------------------------------------
 echo Single config file
 echo Starting %cmd% %*
