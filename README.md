@@ -1,5 +1,5 @@
 # Formula Evaluator
-This is a small exercise project aimed at testing the fundamental concepts of the modern C++ language and STL/Boost libraries.
+This is an exercise project aimed at testing the fundamental concepts of the modern C++ language and STL/Boost libraries.
 
 ## What it does
 This program implements the (classic) task of parsing textual mathematical formulas and evaluating them on input data.
@@ -22,18 +22,18 @@ Output:
 - multi-index container (STL-like multi-index container)
 - log (logging lib)
 
-#### Visual Studio 2022 and CMake
+#### Visual Studio 2022 and GCC14
 
 ## Usage
 `FormulaEvaluator.exe --help` - prints supported program options
 
 `--log-level <level>` - Sets logging level (0-5).
 
-`--cfg <pathname>` - config file with options. Example: [Config/cfg.txt](Config/cfg.txt)
+`--cfg <pathname>` - config file with options. Example: [Example/Config/cfg.txt](Example/Config/cfg.txt)
 
 `--formulas <pathname>` - file with named math formulas consisting of basic operators +,-,*,/,unary +-, braces, variables and double precision literals.
 Spaces are ignored.
-Example: [Config/formulas.example.txt](Config/formulas.example.txt)
+Example: [Example/Config/formulas.example.txt](Example/Config/formulas.example.txt)
 ```
 formula1 = (a + b - 2) * (1.1 - 0.3E+2) + +d/c + 4/-2
 ```
@@ -42,7 +42,7 @@ formula1 = (a + b - 2) * (1.1 - 0.3E+2) + +d/c + 4/-2
 Each dataset is a comma separated list of pairs: **"variable=doublevalue"**.
 Variables not found in datasets will be zero'd.
 Spaces are ignored.
-Example: [Config/data.example.txt](Config/data.example.txt)
+Example: [Example/Config/data.example.txt](Example/Config/data.example.txt)
 ```
 a=1, b=4.1E-1, c=-2.1, d=3E+2
 ```

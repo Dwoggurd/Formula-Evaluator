@@ -12,7 +12,7 @@ if (MSVC)
   find_package(Boost REQUIRED)
 else()
   message("UNIX=${UNIX}")
-  find_package(Boost 1.70 REQUIRED COMPONENTS program_options log)
+  find_package(Boost 1.81 REQUIRED COMPONENTS program_options log)
 endif()
 link_directories(${Boost_LIBRARY_DIRS})
 
